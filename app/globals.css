@@ -1,0 +1,89 @@
+@import "tailwindcss";
+
+/* ===== Design System — La Dent Chevelue ===== */
+
+@theme inline {
+  /* Couleurs brand */
+  --color-sapin: #2D5016;
+  --color-sapin-light: #3d6b1e;
+  --color-bois: #8B6F47;
+  --color-lac: #5B8FA8;
+  --color-or: #C4943A;
+  --color-creme: #F8F6F0;
+  --color-anthracite: #2C2C2C;
+  --color-footer: #1a3409;
+
+  /* Couleurs fonctionnelles */
+  --color-background: #F8F6F0;
+  --color-foreground: #2C2C2C;
+  --color-border: #e8e5de;
+  --color-border-light: rgba(0, 0, 0, 0.06);
+  --color-muted: rgba(44, 44, 44, 0.55);
+
+  /* Typographie */
+  --font-display: "Playfair Display", serif;
+  --font-body: "Inter", sans-serif;
+
+  /* Rayons */
+  --radius-card: 12px;
+  --radius-btn: 8px;
+
+  /* Ombres */
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.06);
+  --shadow-card-hover: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* ===== Base Styles ===== */
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-creme);
+  color: var(--color-anthracite);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ===== Typographie de base ===== */
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+/* ===== Selection couleur brand ===== */
+
+::selection {
+  background-color: rgba(45, 80, 22, 0.15);
+  color: var(--color-anthracite);
+}
+
+/* ===== Focus visible accessible ===== */
+
+:focus-visible {
+  outline: 2px solid var(--color-lac);
+  outline-offset: 2px;
+}
+
+/* ===== Scrollbar sobre ===== */
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(44, 44, 44, 0.15);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(44, 44, 44, 0.25);
+}
