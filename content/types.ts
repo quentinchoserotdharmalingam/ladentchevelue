@@ -11,7 +11,12 @@ export type Section =
   | { type: "list"; title?: string; items: string[] }
   | { type: "image"; src: string; alt: string; caption?: string }
   | { type: "separator" }
-  | { type: "subsection"; title: string; content: string };
+  | { type: "subsection"; title: string; content: string }
+  | { type: "hero-quote"; text: string; attribution?: string }
+  | { type: "data-card"; title: string; items: { label: string; value: string }[] }
+  | { type: "chapter-break"; number: number; title: string }
+  | { type: "timeline"; events: { year: string; text: string }[] }
+  | { type: "ambient"; theme: "forest" | "water" | "stone" | "vine" | "sky" };
 
 export interface PageLink {
   title: string;

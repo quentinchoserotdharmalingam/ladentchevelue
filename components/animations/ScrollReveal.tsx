@@ -1,6 +1,12 @@
 "use client";
 
-import { motion } from "motion/react";
+import { useRef } from "react";
+import {
+  motion,
+  useScroll,
+  useTransform,
+  useReducedMotion,
+} from "motion/react";
 import type { ReactNode } from "react";
 
 interface ScrollRevealProps {
@@ -10,6 +16,7 @@ interface ScrollRevealProps {
   duration?: number;
   className?: string;
   once?: boolean;
+  mode?: "triggered" | "continuous";
 }
 
 const directionOffset = {
@@ -27,11 +34,53 @@ export function ScrollReveal({
   duration = 0.5,
   className,
   once = true,
+  mode = "triggered",
 }: ScrollRevealProps) {
+  const ref = useRef<HTMLDivElement>(null);
+  const prefersReducedMotion = useReducedMotion();
   const offset = directionOffset[direction];
+
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start 0.95", "start 0.4"],
+  });
+
+  const continuousOpacity = useTransform(scrollYProgress, [0, 1], [0, 1]);
+  const continuousY = useTransform(
+    scrollYProgress,
+    [0, 1],
+    [offset.y, 0]
+  );
+  const continuousX = useTransform(
+    scrollYProgress,
+    [0, 1],
+    [offset.x, 0]
+  );
+
+  if (prefersReducedMotion) {
+    return <div ref={ref} className={className}>{children}</div>;
+  }
+
+  if (mode === "continuous") {
+    return (
+      <div ref={ref}>
+        <motion.div
+          style={{
+            opacity: continuousOpacity,
+            x: continuousX,
+            y: continuousY,
+          }}
+          className={className}
+        >
+          {children}
+        </motion.div>
+      </div>
+    );
+  }
 
   return (
     <motion.div
+      ref={ref}
       initial={{ opacity: 0, ...offset }}
       whileInView={{ opacity: 1, x: 0, y: 0 }}
       viewport={{ once, margin: "-50px" }}

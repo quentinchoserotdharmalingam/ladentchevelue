@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { Breadcrumb } from "@/components/layout/Breadcrumb";
+import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
 import { ContactForm } from "./ContactForm";
 
 export const metadata: Metadata = {
@@ -12,7 +13,13 @@ export default function ContactPage() {
   return (
     <section className="bg-creme pt-24 pb-16">
       <div className="max-w-2xl mx-auto px-5 md:px-8">
-        <Breadcrumb items={[{ label: "Contact" }]} />
+        <Link
+          href="/"
+          className="inline-flex items-center gap-2 text-sm text-muted hover:text-anthracite transition-colors"
+        >
+          <ArrowLeft size={16} />
+          Accueil
+        </Link>
 
         <div className="mt-6">
           <h1 className="font-display text-3xl font-bold text-anthracite">

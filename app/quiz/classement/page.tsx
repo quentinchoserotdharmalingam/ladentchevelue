@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import { Construction } from "lucide-react";
-import { Breadcrumb } from "@/components/layout/Breadcrumb";
+import Link from "next/link";
+import { ArrowLeft, Construction } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Classement Quiz",
@@ -11,12 +11,13 @@ export default function QuizClassementPage() {
   return (
     <section className="bg-creme pt-24 pb-16">
       <div className="max-w-2xl mx-auto px-5 md:px-8">
-        <Breadcrumb
-          items={[
-            { label: "Quiz", href: "/quiz" },
-            { label: "Classement" },
-          ]}
-        />
+        <Link
+          href="/quiz"
+          className="inline-flex items-center gap-2 text-sm text-muted hover:text-anthracite transition-colors"
+        >
+          <ArrowLeft size={16} />
+          Quiz
+        </Link>
 
         <div className="mt-16 text-center">
           <Construction size={48} className="text-or/50 mx-auto mb-6" />

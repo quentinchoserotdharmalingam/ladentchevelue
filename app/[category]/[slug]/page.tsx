@@ -1,13 +1,14 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { categories, getCategoryBySlug } from "@/content/categories";
-import { getPageContent, getAllPages } from "@/content";
-import { Breadcrumb } from "@/components/layout/Breadcrumb";
-import { SectionRenderer } from "@/components/detail/SectionRenderer";
+import { getPageContent } from "@/content";
+import { DetailHero } from "@/components/detail/DetailHero";
+import { ImmersiveSectionRenderer } from "@/components/detail/ImmersiveSectionRenderer";
+import { ReadingProgress } from "@/components/detail/ReadingProgress";
+import { CategorySidebar } from "@/components/layout/CategorySidebar";
 import { InfoBox } from "@/components/detail/InfoBox";
 import { PageNavigation } from "@/components/detail/PageNavigation";
 import { ContextualFunFact } from "@/components/detail/ContextualFunFact";
-import { ScrollReveal } from "@/components/animations/ScrollReveal";
 
 export function generateStaticParams() {
   const params: { category: string; slug: string }[] = [];
@@ -58,58 +59,48 @@ export default async function DetailPage({
 
   return (
     <>
+      <ReadingProgress color={category.accentColor} />
+      <CategorySidebar
+        pages={category.sousPages}
+        categorySlug={category.slug}
+        currentSlug={slug}
+        accentColor={category.accentColor}
+      />
+
       {/* Hero */}
-      <section className="bg-creme pt-24 pb-8">
+      <DetailHero
+        title={content.title}
+        subtitle={content.subtitle}
+        categoryTitle={category.titre}
+        categorySlug={category.slug}
+        accentColor={category.accentColor}
+        heroGradient={category.heroGradient}
+      />
+
+      {/* Content */}
+      <section className="bg-creme py-16 md:py-24">
         <div className="max-w-3xl mx-auto px-5 md:px-8">
-          {/* Breadcrumb */}
-          <Breadcrumb
-            items={[
-              { label: category.titre, href: `/${category.slug}` },
-              { label: content.title },
-            ]}
-          />
-
-          <ScrollReveal>
-            <div className="mt-6">
-              <h1 className="font-display text-3xl md:text-4xl font-bold text-anthracite">
-                {content.title}
-              </h1>
-              {content.subtitle && (
-                <p className="font-display italic text-lg text-anthracite/55 mt-3">
-                  {content.subtitle}
-                </p>
-              )}
-            </div>
-          </ScrollReveal>
-        </div>
-      </section>
-
-      {/* Contenu */}
-      <section className="bg-creme pb-16">
-        <div className="max-w-3xl mx-auto px-5 md:px-8">
-          <ScrollReveal delay={0.15}>
-            <article className="mt-8">
-              <SectionRenderer sections={content.sections} />
-            </article>
-
-            {/* Info box */}
-            {content.infoBox && (
-              <div className="mt-10">
-                <InfoBox infoBox={content.infoBox} />
-              </div>
-            )}
-
-            {/* Fun fact contextuel */}
-            {content.funFact && (
-              <ContextualFunFact fact={content.funFact} />
-            )}
-
-            {/* Navigation prev/next */}
-            <PageNavigation
-              prevPage={content.prevPage}
-              nextPage={content.nextPage}
+          <article>
+            <ImmersiveSectionRenderer
+              sections={content.sections}
+              accentColor={category.accentColor}
             />
-          </ScrollReveal>
+          </article>
+
+          {content.infoBox && (
+            <div className="mt-16">
+              <InfoBox infoBox={content.infoBox} />
+            </div>
+          )}
+
+          {content.funFact && (
+            <ContextualFunFact fact={content.funFact} />
+          )}
+
+          <PageNavigation
+            prevPage={content.prevPage}
+            nextPage={content.nextPage}
+          />
         </div>
       </section>
     </>

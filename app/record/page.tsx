@@ -2,14 +2,12 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import {
   Mountain,
-  Timer,
   Route,
   TrendingUp,
-  Camera,
   Trophy,
 } from "lucide-react";
-import { Breadcrumb } from "@/components/layout/Breadcrumb";
-import { RecordNav } from "@/components/record/RecordNav";
+import { PathDraw } from "@/components/animations/PathDraw";
+import { CountUp } from "@/components/animations/CountUp";
 import { ScrollReveal } from "@/components/animations/ScrollReveal";
 
 export const metadata: Metadata = {
@@ -18,113 +16,114 @@ export const metadata: Metadata = {
     "Le defi trail de Saint-Jean-de-Chevelu : eglise -> sommet de la Dent du Chat -> eglise. 1 178m D+, ~12km. Record actuel : 1h53.",
 };
 
-const rules = [
-  {
-    icon: Mountain,
-    title: "Depart & arrivee",
-    desc: "Eglise de Saint-Jean-de-Chevelu",
-  },
-  {
-    icon: Route,
-    title: "Couloir nord interdit",
-    desc: "Pour la securite des coureurs et des randonneurs en dessous",
-  },
-  {
-    icon: Camera,
-    title: "Photo preuve au sommet",
-    desc: "Avec perruque ou couvre-chef obligatoire",
-  },
-  {
-    icon: Timer,
-    title: "Preuve du chrono",
-    desc: "Strava ou temoin accredite",
-  },
-];
-
-const stats = [
-  { label: "D+", value: "1 178 m", icon: TrendingUp },
-  { label: "Distance", value: "~12 km", icon: Route },
-  { label: "Altitude max", value: "1 393 m", icon: Mountain },
-  { label: "Record", value: "1h53", icon: Trophy },
-];
-
 export default function RecordPage() {
   return (
     <>
       {/* Hero */}
-      <section className="bg-gradient-to-br from-sapin to-lac pt-24 pb-16">
-        <div className="max-w-3xl mx-auto px-5 md:px-8 text-center text-white">
+      <section className="relative min-h-[80vh] flex items-center justify-center overflow-hidden bg-gradient-to-b from-sapin via-sapin to-lac">
+        <div className="relative z-10 text-center px-6 md:px-8 max-w-3xl">
           <ScrollReveal>
-            <p className="font-body text-xs uppercase tracking-[0.2em] text-white/60 mb-3">
+            <p className="font-body text-xs uppercase tracking-[0.25em] text-white/40 mb-4">
               Le defi
             </p>
             <h1
-              className="font-display font-bold text-white"
-              style={{ fontSize: "clamp(1.75rem, 4vw, 2.75rem)" }}
+              className="font-display font-bold text-white mb-4"
+              style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)" }}
             >
               Le Record de la Dent Chevelue
             </h1>
-            <p className="font-body text-lg text-white/80 mt-4">
+            <p className="font-display text-xl text-white/70 mb-2">
               Eglise → Sommet → Eglise
             </p>
-            <p className="font-display italic text-sm text-white/45 mt-2">
+            <p className="font-display italic text-sm text-white/35">
               Perruque obligatoire au sommet.
             </p>
           </ScrollReveal>
         </div>
       </section>
 
-      {/* Navigation */}
-      <RecordNav />
-
-      <Breadcrumb items={[{ label: "Le Record" }]} />
-
-      {/* Stats */}
-      <section className="bg-creme py-12">
+      {/* Elevation profile */}
+      <section className="bg-creme py-16">
         <div className="max-w-4xl mx-auto px-5 md:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {stats.map((stat) => (
-              <ScrollReveal key={stat.label}>
-                <div className="bg-white border border-border rounded-[var(--radius-card)] p-5 text-center">
-                  <stat.icon
-                    size={22}
-                    className="text-sapin/60 mx-auto mb-2"
-                  />
-                  <p className="font-display text-2xl font-bold text-anthracite">
-                    {stat.value}
-                  </p>
-                  <p className="font-body text-xs text-anthracite/50 mt-1">
-                    {stat.label}
-                  </p>
-                </div>
-              </ScrollReveal>
-            ))}
+          <ScrollReveal>
+            <h2 className="font-display text-xl font-bold text-anthracite text-center mb-8">Le parcours</h2>
+          </ScrollReveal>
+          <PathDraw
+            d="M10,90 L15,88 L25,80 L35,65 L45,45 L55,25 L60,15 L65,10 L70,15 L75,25 L80,45 L85,65 L90,80 L95,88"
+            viewBox="0 0 100 100"
+            stroke="var(--color-sapin)"
+            strokeWidth={1.5}
+            className="w-full h-32 md:h-48"
+            trigger="inView"
+            duration={2}
+          />
+          <div className="flex justify-between px-2 mt-2">
+            <span className="font-body text-xs text-anthracite/40">Eglise (310 m)</span>
+            <span className="font-body text-xs text-sapin font-semibold">Sommet (1 393 m)</span>
+            <span className="font-body text-xs text-anthracite/40">Eglise (310 m)</span>
           </div>
         </div>
       </section>
 
-      {/* Regles */}
+      {/* Stats */}
       <section className="bg-white py-16">
-        <div className="max-w-3xl mx-auto px-5 md:px-8">
-          <h2 className="font-display text-2xl font-bold text-anthracite text-center mb-10">
-            Les regles
-          </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {rules.map((rule, i) => (
-              <ScrollReveal key={i} delay={i * 0.08}>
-                <div className="flex gap-4 p-5 bg-creme rounded-[var(--radius-card)]">
-                  <rule.icon
-                    size={22}
-                    className="text-sapin/60 flex-shrink-0 mt-0.5"
-                  />
-                  <div>
-                    <h3 className="font-body font-semibold text-sm text-anthracite">
-                      {rule.title}
-                    </h3>
-                    <p className="font-body text-sm text-anthracite/60 mt-1">
-                      {rule.desc}
-                    </p>
-                  </div>
+        <div className="max-w-4xl mx-auto px-5 md:px-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
+            <ScrollReveal delay={0}>
+              <div className="text-center">
+                <TrendingUp size={20} className="text-sapin/50 mx-auto mb-3" />
+                <CountUp target={1178} suffix=" m" className="font-display text-2xl md:text-3xl font-bold text-anthracite" />
+                <p className="font-body text-xs text-anthracite/40 mt-1">D+</p>
+              </div>
+            </ScrollReveal>
+            <ScrollReveal delay={0.1}>
+              <div className="text-center">
+                <Route size={20} className="text-sapin/50 mx-auto mb-3" />
+                <p className="font-display text-2xl md:text-3xl font-bold text-anthracite">~12 km</p>
+                <p className="font-body text-xs text-anthracite/40 mt-1">Distance</p>
+              </div>
+            </ScrollReveal>
+            <ScrollReveal delay={0.2}>
+              <div className="text-center">
+                <Mountain size={20} className="text-sapin/50 mx-auto mb-3" />
+                <CountUp target={1393} suffix=" m" className="font-display text-2xl md:text-3xl font-bold text-anthracite" />
+                <p className="font-body text-xs text-anthracite/40 mt-1">Altitude max</p>
+              </div>
+            </ScrollReveal>
+            <ScrollReveal delay={0.3}>
+              <div className="text-center">
+                <Trophy size={20} className="text-or mx-auto mb-3" />
+                <p className="font-display text-2xl md:text-3xl font-bold text-or">1h53</p>
+                <p className="font-body text-xs text-anthracite/40 mt-1">Record</p>
+              </div>
+            </ScrollReveal>
+          </div>
+        </div>
+      </section>
+
+      {/* Rules */}
+      <section className="bg-creme py-16">
+        <div className="max-w-2xl mx-auto px-5 md:px-8">
+          <ScrollReveal>
+            <h2 className="font-display text-xl font-bold text-anthracite text-center mb-10">
+              Les regles
+            </h2>
+          </ScrollReveal>
+          <div className="space-y-4">
+            {[
+              "Depart et arrivee a l'eglise de Saint-Jean-de-Chevelu",
+              "Couloir nord interdit — pour la securite des randonneurs",
+              "Photo preuve au sommet avec perruque ou couvre-chef obligatoire",
+              "Preuve du chrono : Strava ou temoin accredite",
+            ].map((rule, i) => (
+              <ScrollReveal key={i} delay={i * 0.08} mode="continuous">
+                <div className="flex items-start gap-4 p-5 bg-white rounded-2xl border border-border">
+                  <span className="font-display text-2xl font-bold text-sapin/20 leading-none">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <p className="font-body text-sm text-anthracite/75 leading-relaxed pt-1">
+                    {rule}
+                  </p>
                 </div>
               </ScrollReveal>
             ))}
@@ -133,31 +132,23 @@ export default function RecordPage() {
       </section>
 
       {/* CTA */}
-      <section className="bg-creme py-12">
+      <section className="bg-gradient-to-b from-creme to-sapin/5 py-16">
         <div className="max-w-3xl mx-auto px-5 md:px-8 text-center">
-          <p className="font-body text-sm text-anthracite/50 mb-4">
-            16 temeraires ont deja releve le defi
-          </p>
+          <ScrollReveal>
+            <p className="font-body text-sm text-anthracite/40 mb-6">
+              16 temeraires ont deja releve le defi
+            </p>
+          </ScrollReveal>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Link
               href="/record/classement"
-              className="
-                inline-flex items-center justify-center gap-2
-                px-6 py-3 bg-sapin text-white
-                rounded-lg font-body font-semibold text-sm
-                hover:bg-sapin-light transition-colors
-              "
+              className="inline-flex items-center justify-center gap-2 px-8 py-3 bg-sapin text-white rounded-full font-body font-semibold text-sm hover:bg-sapin-light transition-colors"
             >
               Voir le classement
             </Link>
             <Link
               href="/record/soumettre"
-              className="
-                inline-flex items-center justify-center gap-2
-                px-6 py-3 border-2 border-sapin text-sapin
-                rounded-lg font-body font-semibold text-sm
-                hover:bg-sapin hover:text-white transition-colors
-              "
+              className="inline-flex items-center justify-center gap-2 px-8 py-3 border-2 border-sapin text-sapin rounded-full font-body font-semibold text-sm hover:bg-sapin hover:text-white transition-colors"
             >
               Soumettre mon temps
             </Link>
