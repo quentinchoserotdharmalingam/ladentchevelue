@@ -21,7 +21,7 @@ export function FunFactCinematic() {
   }, []);
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-[60vh] px-6 md:px-12">
+    <div className="flex flex-col items-center justify-center py-12 md:py-16 px-6 md:px-12">
       <p className="font-display italic text-sm text-anthracite/40 mb-8">
         Le Saviez-Chevelu ?
       </p>

@@ -46,8 +46,7 @@ export function FloatingNav() {
     }
 
     const handleScroll = () => {
-      // Show nav after scrolling past ~70% of viewport height * 5 sections
-      const threshold = window.innerHeight * 3.5;
+      const threshold = window.innerHeight * 0.5;
       setIsVisible(window.scrollY > threshold);
     };
 
